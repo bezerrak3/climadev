@@ -3,7 +3,12 @@ import BackgroundWithSpaceChildren from "../src/components/layout/backgroundImag
 
 
 const StyledDiv = styled.div`
-    background-color: red;
+    background-color: ${props => props.theme.colors.white};
+    min-width: 500px;
+
+    @media (max-width: 500px){
+        min-width: 100%;
+    }
 `
 
 
