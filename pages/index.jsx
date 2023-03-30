@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import BackgroundWithSpaceChildren from "../src/components/layout/backgroundImageWithChildren/backgroundWithSpaceChildren"
+
 
 const StyledDiv = styled.div`
     background-color: red;
@@ -7,8 +9,10 @@ const StyledDiv = styled.div`
 
 export default function HomePage(){
     return(
-        <StyledDiv>
-            Pagina inicial
-        </StyledDiv>
+        <BackgroundWithSpaceChildren>
+            <StyledDiv>
+                Pagina inicial
+            </StyledDiv>
+        </BackgroundWithSpaceChildren>
     )
 }
