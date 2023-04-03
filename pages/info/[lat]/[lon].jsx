@@ -1,5 +1,6 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
+import Container from "../../../src/components/layout/container/Container";
 import Navbar from "../../../src/components/navbar/Navbar"
 
 const Body = styled.div`
@@ -12,7 +13,9 @@ export default function InfoPage(){
         <>
            <Navbar />
            <Body>
-            Conteudo
+            <Container>
+             Conteudo
+            </Container>
            </Body>
         </>
     )
