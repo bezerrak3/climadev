@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+import ClimaCard from "../../../src/components/climaCard/ClimaCard";
 import Container from "../../../src/components/layout/container/Container";
 import Navbar from "../../../src/components/navbar/Navbar"
 
@@ -22,7 +23,12 @@ const CityName = styled.h2`
     padding: 0;
     margin: 0;
 `
-
+const InfoContainer = styled.div`
+    display: flex;
+    justify-content: space-between1;
+    flex-wrap: wrap;
+    gap: 20px;
+`
 
 export default function InfoPage(){
     return(
@@ -34,6 +40,11 @@ export default function InfoPage(){
                <Text>Previsão do tempo para</Text>
                <CityName>Vitoria, ES, Brasil</CityName>
               </Content>
+              <InfoContainer>
+                <ClimaCard/>
+                <ClimaCard />
+                <ClimaCard />
+              </InfoContainer>
             </Container>
            </Body>
         </>
