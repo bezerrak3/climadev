@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 import styled from "styled-components";
 
 import ClimaCard from "../../../src/components/climaCard/ClimaCard";
@@ -31,6 +34,35 @@ const InfoContainer = styled.div`
 `
 
 export default function InfoPage(){
+    const [currentInfo, setCurrentInfo] = useState()
+    const [futureInfo, setFutureInfo] = useState()
+    const router = useRouter()
+
+    const {lat, lon} = router.query  // mesma coisa de fazer router.query.lat(ou lon)
+
+    const fetchCurrentInfo = async () => {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OWM_KEY}&units=metric&lang=pt_br`)
+        const json = await response.json()
+        setCurrentInfo(json)
+    }
+
+    const fetchFutureInfo = async () => {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OWM_KEY}&units=metric&lang=pt_br`)
+        const futureResponse = await response.json()
+        setFutureInfo(futureResponse)
+        
+    }
+
+
+    useEffect(()=>{
+        if(lat && lon){
+            fetchCurrentInfo()
+            fetchFutureInfo()
+        }
+    },[lat, lon])
+
+    console.log(futureInfo)
+
     return(
         <>
            <Navbar />
@@ -38,12 +70,37 @@ export default function InfoPage(){
             <Container>
               <Content>
                <Text>Previsão do tempo para</Text>
-               <CityName>Vitoria, ES, Brasil</CityName>
+               <CityName>{currentInfo?.name},{currentInfo?.sys.country}</CityName>
               </Content>
               <InfoContainer>
-                <ClimaCard/>
-                <ClimaCard />
-                <ClimaCard />
+                        <ClimaCard 
+                        title='Agora' 
+                        icon={currentInfo?.weather[0].icon} 
+                        description={currentInfo?.weather[0].description} 
+                        tem={currentInfo?.main.temp} 
+                        feels={currentInfo?.main.feels_like} 
+                        min={currentInfo?.main.temp_min}  
+                        max={currentInfo?.main.temp_max} 
+                       
+                        />
+                        <ClimaCard
+                        title='Próximas 3 horas'
+                        icon={futureInfo?.list[0].weather[0].icon}
+                        description={futureInfo?.list[0].weather[0].description}
+                        tem={futureInfo?.list[0].main.temp}
+                        feels={futureInfo?.list[0].main.feels_like}
+                        min={futureInfo?.list[0].main.temp_min}
+                        max={futureInfo?.list[0].main.temp_max}
+                        />
+                        <ClimaCard
+                        title='Próximas 3 horas'
+                        icon={futureInfo?.list[1].weather[0].icon}
+                        description={futureInfo?.list[1].weather[0].description}
+                        tem={futureInfo?.list[1].main.temp}
+                        feels={futureInfo?.list[1].main.feels_like}
+                        min={futureInfo?.list[1].main.temp_min}
+                        max={futureInfo?.list[1].main.temp_max}
+                        />      
               </InfoContainer>
             </Container>
            </Body>
